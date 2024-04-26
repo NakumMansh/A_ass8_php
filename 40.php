@@ -1,0 +1,85 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<script> 
+function showHint(str) { 
+  if (str.length == 0) { 
+    document.getElementById("txtHint").innerHTML = ""; 
+    return; 
+  } else { 
+    var xmlhttp = new XMLHttpRequest(); 
+    xmlhttp.onreadystatechange = function() { 
+      if (this.readyState == 4 && this.status == 200) { 
+        document.getElementById("txtHint").innerHTML = this.responseText; 
+      } 
+    } 
+    xmlhttp.open("GET", "gethint.php?q="+str, true); 
+    xmlhttp.send(); 
+  } 
+} 
+</script> 
+</head> 
+<body> 
+<p><b>Start typing a name in the input field below:</b></p> 
+<form action=""> 
+  <label for="fname">First name:</label> 
+  <input type="text" id="fname" name="fname" onkeyup="showHint(this.value)"> 
+</form> 
+<p>Suggestions: <span id="txtHint"></span></p> 
+</body> 
+</html>
+ 52 changes: 52 additions & 0 deletions52  
+40-2.php
+@@ -0,0 +1,52 @@
+<?php 
+$a[] = "Anna"; 
+$a[] = "Brittany"; 
+$a[] = "Cinderella"; 
+$a[] = "Diana"; 
+$a[] = "Eva"; 
+$a[] = "Fiona"; 
+$a[] = "Gunda"; 
+$a[] = "Hege"; 
+$a[] = "Inga"; 
+$a[] = "Johanna"; 
+$a[] = "Kitty"; 
+$a[] = "Linda"; 
+$a[] = "navdip"; 
+$a[] = "Ophelia"; 
+$a[] = "Petunia"; 
+$a[] = "Amanda"; 
+$a[] = "Raquel"; 
+$a[] = "Cindy"; 
+$a[] = "Doris"; 
+$a[] = "Eve"; 
+$a[] = "Evita"; 
+$a[] = "Sunniva"; 
+$a[] = "Tove"; 
+$a[] = "Unni"; 
+$a[] = "Violet"; 
+$a[] = "Liza"; 
+$a[] = "Elizabeth"; 
+$a[] = "Ellen"; 
+$a[] = "Wenche"; 
+$a[] = "Vicky"; 
+
+$q = $_REQUEST["q"]; 
+$hint = ""; 
+
+if ($q !== "") { 
+  $q = strtolower($q); 
+  $len=strlen($q); 
+
+foreach($a as $name) { 
+if (stristr($q, substr($name, 0, $len))) { 
+if ($hint === "") { 
+$hint = $name; 
+} else { 
+$hint .= ", $name"; 
+} 
+} 
+} 
+} 
+
+echo $hint === "" ? "no suggestion" : $hint; 
+?>
